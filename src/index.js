@@ -2,15 +2,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import './index.css'
-import './index.less'
+import Image from './image/beautifulGirl.jpg'
+import './style/index.less'
 
 class TestReact extends React.Component {
   render() {
     return (
       <div>
-        <p className="pLabel">我是p标签</p>
-        TestReact
+        处理图片和字体：file-loader
+        <p className='search'>字体字体</p>
+        <img src={Image} />
       </div>
     )
   }
@@ -20,13 +21,3 @@ ReactDOM.render(
   <TestReact />,
   document.getElementById('root')
 )
-
-class testJs {
-  constructor(name) {
-    this.name = name
-  }
-}
-
-function testWp() {
-  console.log('testWp')
-}
