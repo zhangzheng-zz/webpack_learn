@@ -12,6 +12,10 @@ npm run dev
 ### js使用chunkhash
 ### css使用contenthash
 
+### 分离css的方法：
+#### style-loader是以标签的形式将css代码插入到header中，css代码与js代码打包成一个chunk
+#### 使用插件：mini-css-extract-plugin
+
 
 
 

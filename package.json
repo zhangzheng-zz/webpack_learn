@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --open --port 3333"
+    "dev": "webpack-dev-server --open --port 3333 --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "author": "zhangzheng",
   "license": "ISC",
@@ -18,6 +19,7 @@
     "file-loader": "^6.0.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
+    "mini-css-extract-plugin": "^0.9.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "style-loader": "^1.1.4",

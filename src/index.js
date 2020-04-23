@@ -11,6 +11,7 @@ class TestReact extends React.Component {
       <div>
         处理图片和字体：file-loader
         <p className='search'>字体字体</p>
+        <p className='search'>加一行字</p>
         <img src={Image} />
       </div>
     )
