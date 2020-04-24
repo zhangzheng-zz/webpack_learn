@@ -1,5 +1,11 @@
 const path = require('path')
 const webpack = require('webpack')
+const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+
+
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -16,24 +22,18 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          MiniCSSExtractPlugin.loader,
           'css-loader'
         ],
       },
       {
         test: /\.less$/,
         use: [
-          'style-loader',
+          MiniCSSExtractPlugin.loader,
           'css-loader',
           'less-loader'
         ],
       },
-      // 图片解析 
-      // {
-      //   test: /\.(jpg|svg|png|gif)$/,
-      //   use:['file-loader']
-      // },
-      // 图片解析 url-loader
       {
         test: /\.(jpg|svg|png|gif)$/,
         use: {
@@ -52,8 +52,34 @@ module.exports = {
     ]
   },
   plugins: [
+
     // 热更新
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+
+    // 分离css代码并作 contenthash 
+    new MiniCSSExtractPlugin({
+      filename: '[name]_[contenthash:8].css'
+    }),
+
+    //html压缩
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src/index.html'),
+      filename: 'index.html',
+      chunks: ['main'],
+      inject: true,
+      minify: {
+        html5: true,
+        collapseWhitespace: true,
+        preserveLineBreaks: true,
+        minifyCSS: true,
+        minifyJS: true,
+        removeComments: true
+      }
+    }),
+
+    // 清除dist
+    new CleanWebpackPlugin()
+
   ],
   // webpack-dev-server 配置
   devServer: {

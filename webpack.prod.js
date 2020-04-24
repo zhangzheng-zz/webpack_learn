@@ -1,5 +1,10 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -48,9 +53,35 @@ module.exports = {
     ]
   },
   plugins: [
+
     // 分离css代码并作 contenthash 
     new MiniCssExtractPlugin({
       filename: '[name]_[contenthash:8].css'
-    })
+    }),
+
+    // css压缩
+    new OptimizeCSSAssetsPlugin({
+      assetNameRegExp: /\.css$/g,
+      cssProcessor: require('cssnano')
+    }),
+
+    //html压缩
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src/index.html'),
+      filename: 'index.html',
+      chunks: ['main'],
+      inject: true,
+      minify: {
+        html5: true,
+        collapseWhitespace: true,
+        preserveLineBreaks: true,
+        minifyCSS: true,
+        minifyJS: true,
+        removeComments: true
+      }
+    }),
+
+    // 清除dist目录
+    new CleanWebpackPlugin()
   ]
 }
