@@ -5,6 +5,8 @@ import './index.less'
 
 import { common } from '../../../common'
 
+import { a } from '../tree-shaking'
+
 class TestReact extends React.Component {
   render() {
     console.log(common())
