@@ -2,9 +2,10 @@ const path = require('path')
 const webpack = require('webpack')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-
+// 分离基础库
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 
 module.exports = {
   entry: {
@@ -92,7 +93,23 @@ module.exports = {
     }),
 
     // 清除dist
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+
+    // 分离基础库
+    new HtmlWebpackExternalsPlugin({
+      externals: [
+        {
+          module: 'react',
+          entry: 'https://unpkg.com/react@16/umd/react.production.min.js',
+          global: 'React',
+        },
+        {
+          module: 'react-dom',
+          entry: 'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js',
+          global: 'ReactDOM',
+        },
+      ],
+    })
 
   ],
   // webpack-dev-server 配置
@@ -103,5 +120,5 @@ module.exports = {
 
 
   // source map
-  devtool:'source-map'
+  devtool: 'source-map'
 }

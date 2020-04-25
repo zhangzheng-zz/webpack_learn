@@ -6,6 +6,9 @@ const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+// 分离基础库
+// const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
+
 const MPA = () => {
   const
     entry = {},
@@ -95,7 +98,41 @@ module.exports = {
     }),
 
     // 清除dist
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
 
-  ].concat(htmlWebpackPlugins)
+
+
+    // 分离基础库1
+    //  new HtmlWebpackExternalsPlugin({
+    //   externals: [
+    //     {
+    //       module: 'react',
+    //       entry: 'https://unpkg.com/react@16/umd/react.production.min.js',
+    //       global: 'React',
+    //     },
+    //     {
+    //       module: 'react-dom',
+    //       entry: 'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js',
+    //       global: 'ReactDOM',
+    //     },
+    //   ],
+    // })
+
+  ].concat(htmlWebpackPlugins),
+
+  // 分离基础库2
+  optimization: {
+    splitChunks: {
+      minSize: 1000,//1kb
+      minChunks: 2,//两次
+      cacheGroups: {
+        commons: {
+          // test: /(react|react-dom)/,
+          name: 'common',
+          chunks: 'all'//全部打包
+        }
+      }
+    }
+  }
+
 }
