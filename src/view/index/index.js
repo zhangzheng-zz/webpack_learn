@@ -6,9 +6,9 @@ import './index.less'
 class TestReact extends React.Component {
   render() {
     return (
-      <div className="index">
+      < div className="index" >
         我是index
-      </div>
+      </div >
     )
   }
 }

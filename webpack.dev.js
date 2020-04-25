@@ -99,5 +99,9 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     hot: true
-  }
+  },
+
+
+  // source map
+  devtool:'source-map'
 }
