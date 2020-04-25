@@ -3,18 +3,11 @@
 ```
 npm run dev 
 ```
-#### 安装 postcss 和 autoprefixer
-```
- {
-    loader: 'postcss-loader',
-    options: {
-      plugins: [
-        require('autoprefixer')
-      ]
-    }
-  }
-```
-### 添加.browserslistrc配置
+#### 05libflexible和px2rem适配
+#### 内联 HTML 或者 JS
+
+
+
 
 
 

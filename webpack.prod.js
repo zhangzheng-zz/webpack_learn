@@ -39,6 +39,15 @@ module.exports = {
                 require('autoprefixer')
               ]
             }
+          },
+          {
+            loader: 'px2rem-loader',
+            options: {
+              // 75px 转 1rem
+              remUnit: 75,
+              // 小数点后
+              remPrecision: 8
+            }
           }
         ],
       },
