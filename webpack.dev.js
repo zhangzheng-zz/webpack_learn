@@ -7,7 +7,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    index: './src/view/index/index.js',
+    search: './src/view/search/index.js',
+  },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js'
@@ -43,11 +46,6 @@ module.exports = {
             limit: 10240
           }
         }
-      },
-      // 字体解析
-      {
-        test: /\.(woff|woff2|ttf|TTF|oet)$/,
-        use: ['file-loader']
       }
     ]
   },
@@ -63,9 +61,25 @@ module.exports = {
 
     //html压缩
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src/index.html'),
+      template: path.join(__dirname, 'src/view/index/index.html'),
       filename: 'index.html',
-      chunks: ['main'],
+      chunks: ['index'],
+      inject: true,
+      minify: {
+        html5: true,
+        collapseWhitespace: true,
+        preserveLineBreaks: true,
+        minifyCSS: true,
+        minifyJS: true,
+        removeComments: true
+      }
+    }),
+
+    //html压缩
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src/view/search/index.html'),
+      filename: 'search.html',
+      chunks: ['search'],
       inject: true,
       minify: {
         html5: true,

@@ -1,16 +1,54 @@
 const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const webpack = require('webpack')
+const glob = require('glob')
+
+const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const MPA = () => {
+  const
+    entry = {},
+    htmlWebpackPlugins = []
+
+  const entryFiles = glob.sync(path.join(__dirname, './src/view/*/index.js'))
+  entryFiles.map(file => {
+    const entryFile = file
+    const match = entryFile.match(/src\/view\/(.*)\/index.js/)
+    const pageName = match[1]
+    entry[pageName] = entryFile
+
+    //html压缩
+    htmlWebpackPlugins.push(
+      new HtmlWebpackPlugin({
+        template: path.join(__dirname, `src/view/${pageName}/index.html`),
+        filename: `${pageName}.html`,
+        chunks: [pageName],
+        inject: true,
+        minify: {
+          html5: true,
+          collapseWhitespace: true,
+          preserveLineBreaks: true,
+          minifyCSS: true,
+          minifyJS: true,
+          removeComments: true
+        }
+      }))
+  })
+
+
+  return {
+    entry,
+    htmlWebpackPlugins
+  }
+}
+const { entry, htmlWebpackPlugins } = MPA()
 
 module.exports = {
-  entry: './src/index.js',
+  entry: entry,
   output: {
     path: path.join(__dirname, 'dist'),
-    // chunkhash 保留8位
-    filename: '[name]_[chunkhash:8].js'
+    filename: '[name].js'
   },
   mode: 'production',
   module: {
@@ -22,66 +60,42 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          MiniCSSExtractPlugin.loader,
           'css-loader'
         ],
       },
       {
         test: /\.less$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          MiniCSSExtractPlugin.loader,
           'css-loader',
           'less-loader'
         ],
       },
-      // 图片解析 
       {
         test: /\.(jpg|svg|png|gif)$/,
         use: {
-          loader: 'file-loader',
+          loader: 'url-loader',
           options: {
-            // 文件指纹
-            name: '[name]_[hash:8][ext]'
+            // 小于 10kb 的转为 base64
+            limit: 10240
           }
         }
-      },
-      // 字体解析
-      {
-        test: /\.(woff|woff2|ttf|TTF|oet)$/,
-        use: ['file-loader']
       }
     ]
   },
   plugins: [
 
+    // 热更新
+    new webpack.HotModuleReplacementPlugin(),
+
     // 分离css代码并作 contenthash 
-    new MiniCssExtractPlugin({
+    new MiniCSSExtractPlugin({
       filename: '[name]_[contenthash:8].css'
     }),
 
-    // css压缩
-    new OptimizeCSSAssetsPlugin({
-      assetNameRegExp: /\.css$/g,
-      cssProcessor: require('cssnano')
-    }),
-
-    //html压缩
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src/index.html'),
-      filename: 'index.html',
-      chunks: ['main'],
-      inject: true,
-      minify: {
-        html5: true,
-        collapseWhitespace: true,
-        preserveLineBreaks: true,
-        minifyCSS: true,
-        minifyJS: true,
-        removeComments: true
-      }
-    }),
-
-    // 清除dist目录
+    // 清除dist
     new CleanWebpackPlugin()
-  ]
+
+  ].concat(htmlWebpackPlugins)
 }
