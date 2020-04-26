@@ -102,10 +102,13 @@ module.exports = {
 
   optimization: {
     splitChunks: {
-      chunks: 'async',
+      minSize: 1000,//1kb
+      minChunks: 1,//两次
       cacheGroups: {
-        commom: {
-          test: /form\-submit\-validator/,
+        form_submit_validator: {
+          test: /form-submit-validator/,
+          name: 'form_submit_validator',
+          chunks: 'all'//全部打包
         }
       }
     }
