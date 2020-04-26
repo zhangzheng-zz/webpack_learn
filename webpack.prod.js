@@ -97,5 +97,17 @@ module.exports = {
     // 清除dist
     new CleanWebpackPlugin()
 
-  ].concat(htmlWebpackPlugins)
+  ].concat(htmlWebpackPlugins),
+
+
+  optimization: {
+    splitChunks: {
+      chunks: 'async',
+      cacheGroups: {
+        commom: {
+          test: /form\-submit\-validator/,
+        }
+      }
+    }
+  }
 }
