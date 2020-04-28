@@ -4,7 +4,9 @@ const glob = require('glob')
 
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 
 const MPA = () => {
   const
@@ -95,7 +97,24 @@ module.exports = {
     }),
 
     // 清除dist
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
 
-  ].concat(htmlWebpackPlugins)
+    // 优化日志显示
+    // new FriendlyErrorsWebpackPlugin(),
+
+    // 异常捕获和错误处理
+    function () {
+      this.hooks.done.tap('done', stats => {
+        if (stats.compilation.errors &&
+          stats.compilation.errors.length &&
+          process.argv.indexOf('--watch') === -1) {
+          console.log('build error')
+          process.exit(1)
+        }
+      })
+    }
+
+  ].concat(htmlWebpackPlugins),
+  // 优化构建时候的日志显示信息
+  stats: "errors-only"
 }

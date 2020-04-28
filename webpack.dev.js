@@ -101,6 +101,7 @@ module.exports = {
   // webpack-dev-server 配置
   devServer: {
     contentBase: './dist',
-    hot: true
+    hot: true,
+    stats: "errors-only"
   }
 }
