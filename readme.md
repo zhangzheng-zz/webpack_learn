@@ -1,11 +1,2 @@
-## 18、缩小构建目标提升打包速度
-```
- // 缩小构建目标
-        include: path.resolve('src'),
-```
-```
- resolve: {
-    extensions: ['.js'],
-    mainFiles: ['index']
-  }
-```
+## 19、压缩图片image-webpack-loader
+https://github.com/tcoopman/image-webpack-loader
