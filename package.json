@@ -8,6 +8,7 @@
     "dev": "webpack-dev-server --open --port 3333 --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "build:ssr": "webpack --config webpack.ssr.js",
+    "dll": "webpack --config webpack.dll.js",
     "server": "nodemon server/index.js"
   },
   "author": "zhangzheng",

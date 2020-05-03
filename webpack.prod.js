@@ -123,13 +123,20 @@ module.exports = {
     //查看打包体积
     // new BundleAnalyzerPlugin()
 
+    // dll分包
+    new webpack.DllReferencePlugin({
+      manifest: path.join(__dirname, 'build/library/library.json')
+    })
+
   ].concat(htmlWebpackPlugins),
   // 优化构建时候的日志显示信息
   // stats: "errors-only",
   optimization: {
     minimizer: [
       new TerserPlugin({
-        parallel: false
+        parallel: false,
+        // 开启缓存
+        cache: true
       }),
     ],
   },

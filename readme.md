@@ -1,2 +1,10 @@
-## 16、优化打包速度 thread-loader多进程打包
-## terser-webpack-plugi 多进程压缩
+## 17、dll分包
+添加webpack.dll.js构建出library
+添加manifest
+```
+// webpack.prod.js
+// dll分包
+    new webpack.DllReferencePlugin({
+      manifest: path.join(__dirname, 'build/library/library.json')
+    })
+```
