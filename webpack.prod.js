@@ -63,6 +63,8 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        // 缩小构建目标
+        include: path.resolve('src'),
         use: 'babel-loader'
       },
       {
@@ -124,9 +126,9 @@ module.exports = {
     // new BundleAnalyzerPlugin()
 
     // dll分包
-    new webpack.DllReferencePlugin({
-      manifest: path.join(__dirname, 'build/library/library.json')
-    })
+    // new webpack.DllReferencePlugin({
+    //   manifest: path.join(__dirname, 'build/library/library.json')
+    // })
 
   ].concat(htmlWebpackPlugins),
   // 优化构建时候的日志显示信息
@@ -140,4 +142,20 @@ module.exports = {
       }),
     ],
   },
+
+  // 缩小构建目标
+  // resolve: {
+  //   //别名
+  //   alias: {
+  //     'react': path.resolve('node_module/react/umd/react.production.min.js'),
+  //     'react-dom': path.resolve('node_module/react-dom/umd/react-dom.production.min.js'),
+  //   },
+  //   // extensions: ['.js'],
+  //   // // 先去main那个字段
+  //   // mainFiles: ['main']
+  // }
+  resolve: {
+    extensions: ['.js'],
+    mainFiles: ['index']
+  }
 }

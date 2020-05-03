@@ -1,10 +1,11 @@
-## 17、dll分包
-添加webpack.dll.js构建出library
-添加manifest
+## 18、缩小构建目标提升打包速度
 ```
-// webpack.prod.js
-// dll分包
-    new webpack.DllReferencePlugin({
-      manifest: path.join(__dirname, 'build/library/library.json')
-    })
+ // 缩小构建目标
+        include: path.resolve('src'),
+```
+```
+ resolve: {
+    extensions: ['.js'],
+    mainFiles: ['index']
+  }
 ```
