@@ -1,1 +1,1 @@
-## 14、速度分析插件 speed-measure-webpack-plugin
+## 15、体积分析插件 WebpackBundleAnalyzer

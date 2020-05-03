@@ -9,6 +9,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const smp = new SpeedMeasurePlugin()
 
@@ -116,7 +117,10 @@ module.exports = smp.wrap({
           process.exit(1)
         }
       })
-    }
+    },
+
+    //查看打包体积
+    new BundleAnalyzerPlugin()
 
   ].concat(htmlWebpackPlugins),
   // 优化构建时候的日志显示信息
