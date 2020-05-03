@@ -8,6 +8,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
+
+const smp = new SpeedMeasurePlugin()
+
 const MPA = () => {
   const
     entry = {},
@@ -46,7 +50,7 @@ const MPA = () => {
 }
 const { entry, htmlWebpackPlugins } = MPA()
 
-module.exports = {
+module.exports = smp.wrap({
   entry: entry,
   output: {
     path: path.join(__dirname, 'dist'),
@@ -117,4 +121,4 @@ module.exports = {
   ].concat(htmlWebpackPlugins),
   // 优化构建时候的日志显示信息
   stats: "errors-only"
-}
+})
