@@ -11,7 +11,8 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-const smp = new SpeedMeasurePlugin()
+const TerserPlugin = require('terser-webpack-plugin');
+
 
 const MPA = () => {
   const
@@ -51,7 +52,7 @@ const MPA = () => {
 }
 const { entry, htmlWebpackPlugins } = MPA()
 
-module.exports = smp.wrap({
+module.exports = {
   entry: entry,
   output: {
     path: path.join(__dirname, 'dist'),
@@ -120,9 +121,16 @@ module.exports = smp.wrap({
     },
 
     //查看打包体积
-    new BundleAnalyzerPlugin()
+    // new BundleAnalyzerPlugin()
 
   ].concat(htmlWebpackPlugins),
   // 优化构建时候的日志显示信息
-  stats: "errors-only"
-})
+  // stats: "errors-only",
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: false
+      }),
+    ],
+  },
+}
