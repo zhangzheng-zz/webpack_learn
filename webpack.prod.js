@@ -11,17 +11,17 @@ const MPA = () => {
     entry = {},
     htmlWebpackPlugins = []
 
-  const entryFiles = glob.sync(path.join(__dirname, './src/view/*/index.js'))
+  const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'))
   entryFiles.map(file => {
     const entryFile = file
-    const match = entryFile.match(/src\/view\/(.*)\/index.js/)
+    const match = entryFile.match(/src\/(.*)\/index.js/)
     const pageName = match[1]
     entry[pageName] = entryFile
 
     //html压缩
     htmlWebpackPlugins.push(
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, `src/view/${pageName}/index.html`),
+        template: path.join(__dirname, `src/${pageName}/index.html`),
         filename: `${pageName}.html`,
         chunks: [pageName],
         inject: true,
