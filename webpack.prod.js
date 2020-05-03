@@ -11,8 +11,12 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-const TerserPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin')
 
+const PurgecssPlugin = require('purgecss-webpack-plugin')
+const PATHS = {
+  src: path.join(__dirname, 'src')
+}
 
 const MPA = () => {
   const
@@ -153,6 +157,11 @@ module.exports = {
     // new webpack.DllReferencePlugin({
     //   manifest: path.join(__dirname, 'build/library/library.json')
     // })
+
+    // 擦除不必要的css
+    new PurgecssPlugin({
+      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true })
+    })
 
   ].concat(htmlWebpackPlugins),
   // 优化构建时候的日志显示信息
